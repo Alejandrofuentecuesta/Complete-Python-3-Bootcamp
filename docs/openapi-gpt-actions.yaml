@@ -1,0 +1,105 @@
+openapi: 3.1.0
+info:
+  title: Calorie Voice Tracker GPT Actions
+  version: 0.1.0
+servers:
+  - url: https://YOUR-VERCEL-DOMAIN.vercel.app
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Supabase JWT
+  schemas:
+    NaturalLanguageLogRequest:
+      type: object
+      required: [text]
+      properties:
+        text:
+          type: string
+          description: Raw user narration or voice transcript.
+        date:
+          type: string
+          format: date
+        timezone:
+          type: string
+          default: UTC
+        source:
+          type: string
+          enum: [custom_gpt]
+          default: custom_gpt
+    CorrectionRequest:
+      type: object
+      required: [entryType, operation, patch]
+      properties:
+        entryType:
+          type: string
+          enum: [meal, food_item, exercise]
+        operation:
+          type: string
+          enum: [update, delete]
+        patch:
+          type: object
+          additionalProperties: true
+        reason:
+          type: string
+        rawText:
+          type: string
+paths:
+  /api/log-natural-language:
+    post:
+      operationId: submitDailyLog
+      summary: Submit a raw food and exercise narration for extraction and logging.
+      security: [{ bearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NaturalLanguageLogRequest'
+      responses:
+        '200':
+          description: Extracted log and updated day summary.
+  /api/entries/{id}:
+    patch:
+      operationId: correctEntry
+      summary: Correct, update, or delete a meal, food item, or exercise entry.
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CorrectionRequest'
+      responses:
+        '200':
+          description: Correction applied.
+  /api/day:
+    get:
+      operationId: getTodaySummary
+      summary: Get a daily summary. Omit date for the server default day.
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: query
+          name: date
+          schema: { type: string, format: date }
+      responses:
+        '200':
+          description: Daily summary.
+  /api/weekly-summary:
+    get:
+      operationId: getWeeklySummary
+      summary: Get seven-day calorie, macro, and exercise summary.
+      security: [{ bearerAuth: [] }]
+      parameters:
+        - in: query
+          name: startDate
+          schema: { type: string, format: date }
+      responses:
+        '200':
+          description: Weekly summary.
