@@ -7,8 +7,8 @@ Create the lowest-friction web app for daily calorie and exercise tracking. The 
 1. User opens ChatGPT voice mode on a phone.
 2. User narrates meals, snacks, drinks, workouts, and corrections.
 3. ChatGPT extracts structured JSON with assumptions, confidence, and clarification questions.
-4. ChatGPT calls the app API, eventually through a Custom GPT Action.
-5. The app displays daily consumed calories, exercise burn, net calories, macros, meals, workouts, and uncertainty.
+4. ChatGPT calls the app API through a Custom GPT Action using a simple single-user secret for the MVP.
+5. User opens a home-screen web dashboard on the phone to review daily consumed calories, exercise burn, net calories, macros, meals, workouts, and uncertainty.
 
 ## Core screens
 - Daily dashboard: net calories hero card, consumed/burned split, protein/carbs/fat cards, confidence indicator.
@@ -19,8 +19,8 @@ Create the lowest-friction web app for daily calorie and exercise tracking. The 
 
 ## MVP assumptions
 - Supabase Auth is the identity layer in production.
-- API routes accept a Supabase JWT bearer token or Supabase SSR session cookie.
-- `DEV_USER_ID` exists only for local smoke testing.
+- API routes accept a Supabase JWT bearer token, Supabase SSR session cookie, or the MVP `x-gpt-action-secret` header for Custom GPT Actions.
+- `GPT_ACTION_USER_ID` maps the single-user GPT Action flow to one Supabase user; `DEV_USER_ID` exists only for local smoke testing.
 - Nutrition estimates start with a local catalog and fallback estimates; provider adapters can later call USDA FoodData Central, Open Food Facts, or Edamam.
 - OpenAI extraction is server-side only and optional; without `OPENAI_API_KEY`, the app uses keyword heuristics for local development.
 
@@ -50,13 +50,13 @@ Create the lowest-friction web app for daily calorie and exercise tracking. The 
 5. Implement MVP nutrition/exercise estimation catalog with replaceable provider boundary.
 6. Implement API routes and day/weekly aggregation helpers.
 7. Build mobile-first dashboard and raw transcript testing UI.
-8. Add GPT Action OpenAPI schema and GPT behavior prompts.
-9. Deploy to Vercel with Supabase and OpenAI environment variables.
+8. Add GPT Action OpenAPI schema, GPT behavior prompts, and a practical mobile workflow guide.
+9. Deploy to Vercel with Supabase, GPT Action secret, and optional OpenAI environment variables.
 10. Iterate on corrections, provider integrations, and production auth UX.
 
 ## Vercel deployment
 1. Create a Supabase project and run `supabase/migrations/001_initial_schema.sql` in the SQL editor or through Supabase CLI.
 2. Create a Vercel project connected to this repository.
-3. Add environment variables from `.env.example` in Vercel Project Settings.
+3. Add environment variables from `.env.example` in Vercel Project Settings, including `GPT_ACTION_SHARED_SECRET` and `GPT_ACTION_USER_ID` for the mobile ChatGPT flow.
 4. Set `NEXT_PUBLIC_APP_URL` to the Vercel production URL.
-5. Deploy. Verify `/api/day` with an authenticated request and then configure the Custom GPT Action schema.
+5. Deploy, add the dashboard to your phone home screen, verify `/api/day` with the GPT Action secret, and then configure the Custom GPT Action schema.

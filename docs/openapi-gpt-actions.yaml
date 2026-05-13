@@ -6,6 +6,11 @@ servers:
   - url: https://YOUR-VERCEL-DOMAIN.vercel.app
 components:
   securitySchemes:
+    gptActionSecret:
+      type: apiKey
+      in: header
+      name: x-gpt-action-secret
+      description: Single-user MVP secret configured with GPT_ACTION_SHARED_SECRET.
     bearerAuth:
       type: http
       scheme: bearer
@@ -50,7 +55,7 @@ paths:
     post:
       operationId: submitDailyLog
       summary: Submit a raw food and exercise narration for extraction and logging.
-      security: [{ bearerAuth: [] }]
+      security: [{ gptActionSecret: [] }, { bearerAuth: [] }]
       requestBody:
         required: true
         content:
@@ -64,7 +69,7 @@ paths:
     patch:
       operationId: correctEntry
       summary: Correct, update, or delete a meal, food item, or exercise entry.
-      security: [{ bearerAuth: [] }]
+      security: [{ gptActionSecret: [] }, { bearerAuth: [] }]
       parameters:
         - in: path
           name: id
@@ -83,7 +88,7 @@ paths:
     get:
       operationId: getTodaySummary
       summary: Get a daily summary. Omit date for the server default day.
-      security: [{ bearerAuth: [] }]
+      security: [{ gptActionSecret: [] }, { bearerAuth: [] }]
       parameters:
         - in: query
           name: date
@@ -95,7 +100,7 @@ paths:
     get:
       operationId: getWeeklySummary
       summary: Get seven-day calorie, macro, and exercise summary.
-      security: [{ bearerAuth: [] }]
+      security: [{ gptActionSecret: [] }, { bearerAuth: [] }]
       parameters:
         - in: query
           name: startDate

@@ -10,6 +10,7 @@ app/
     meals/route.ts                 # POST structured meal logs
     weekly-summary/route.ts        # GET seven-day summary
   globals.css                      # Tailwind theme tokens
+  manifest.ts                      # Home-screen/PWA metadata for phone usage
   layout.tsx                       # App shell and metadata
   page.tsx                         # Dashboard page
 components/
@@ -24,9 +25,12 @@ lib/
   utils.ts                         # Formatting/date helpers
 docs/
   product-spec.md                  # Product spec and step-by-step build plan
+  mobile-workflow.md               # Phone-first ChatGPT-to-dashboard setup
   file-structure.md                # This map
   gpt-prompts.md                   # Custom GPT behavior prompts
   openapi-gpt-actions.yaml         # Custom GPT Action OpenAPI schema
+public/
+  icon.svg                         # Home-screen icon
 supabase/
   migrations/001_initial_schema.sql # Postgres tables, indexes, and RLS
 ```

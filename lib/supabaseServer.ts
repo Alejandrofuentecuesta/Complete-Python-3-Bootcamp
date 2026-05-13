@@ -30,8 +30,14 @@ export function createSupabaseAdminClient() {
 }
 
 export async function getCurrentUserId() {
+  const requestHeaders = headers();
+  const gptActionSecret = requestHeaders.get("x-gpt-action-secret");
+  if (process.env.GPT_ACTION_SHARED_SECRET && gptActionSecret === process.env.GPT_ACTION_SHARED_SECRET) {
+    return process.env.GPT_ACTION_USER_ID || process.env.DEV_USER_ID || "00000000-0000-0000-0000-000000000001";
+  }
+
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    const authHeader = headers().get("authorization");
+    const authHeader = requestHeaders.get("authorization");
     if (authHeader?.startsWith("Bearer ")) {
       const supabase = createSupabaseAdminClient();
       const { data } = await supabase.auth.getUser(authHeader.slice(7));

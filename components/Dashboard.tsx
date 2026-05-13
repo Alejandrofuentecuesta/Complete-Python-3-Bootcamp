@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, Beef, Flame, MessageSquareText, PencilLine, Plus, Sparkles, Utensils } from "lucide-react";
+import { Activity, Beef, Flame, MessageSquareText, Mic, PencilLine, Plus, Smartphone, Sparkles, Utensils } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from "recharts";
 import { confidenceLabel } from "@/lib/utils";
@@ -57,11 +57,26 @@ export function Dashboard() {
     <main className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-5 px-4 py-5 sm:px-6 lg:px-8">
       <header className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-sm font-medium text-primary">Voice-first calorie tracking</p>
+          <p className="text-sm font-medium text-primary">Mobile voice-first calorie tracking</p>
           <h1 className="text-2xl font-bold tracking-tight sm:text-4xl">Today&apos;s balance</h1>
         </div>
         <div className="rounded-full bg-card px-3 py-2 text-xs font-semibold shadow-soft">MVP</div>
       </header>
+
+      <section className="rounded-3xl border bg-card p-4 shadow-soft">
+        <div className="flex items-start gap-3">
+          <div className="rounded-2xl bg-emerald-50 p-3 text-primary"><Smartphone className="h-5 w-5" /></div>
+          <div>
+            <h2 className="font-semibold">Designed for your phone</h2>
+            <p className="mt-1 text-sm text-muted-foreground">Open ChatGPT mobile, use voice mode to narrate your day, let the GPT Action save it here, then review this dashboard from your home-screen shortcut.</p>
+          </div>
+        </div>
+        <div className="mt-3 grid gap-2 text-xs font-medium text-muted-foreground sm:grid-cols-3">
+          <span className="rounded-full bg-muted px-3 py-2"><Mic className="mr-1 inline h-3 w-3" />Narrate in ChatGPT</span>
+          <span className="rounded-full bg-muted px-3 py-2">GPT Action logs it</span>
+          <span className="rounded-full bg-muted px-3 py-2">Review dashboard</span>
+        </div>
+      </section>
 
       <section className="grid gap-4 lg:grid-cols-[1.25fr_0.75fr]">
         <div className="rounded-3xl bg-gradient-to-br from-emerald-600 to-slate-900 p-6 text-white shadow-soft">
