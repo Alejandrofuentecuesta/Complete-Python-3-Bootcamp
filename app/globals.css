@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 210 40% 98%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --muted: 214 32% 91%;
+  --muted-foreground: 215 16% 47%;
+  --primary: 160 84% 32%;
+  --primary-foreground: 0 0% 100%;
+  --accent: 28 96% 90%;
+  --accent-foreground: 24 90% 26%;
+  --border: 214 32% 88%;
+}
+
+* { @apply border-border; }
+body { @apply bg-background text-foreground antialiased; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
